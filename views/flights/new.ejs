@@ -1,4 +1,5 @@
 <%- include("../partials/html-head") %>
+<link rel='stylesheet' href='/public/stylesheets/style.css' />
 
 <%- include("../partials/nav") %>
 
@@ -24,9 +25,9 @@
       <input type="number" name="flightNo">
     </label><br>
     <label>Departs:
-      <input type="date" name="date">
+      <input type="datetime-local" name="date" value="2021-11-01TO8:00">
     </label><br>
-    <button type="submit">Add Movie</button>
+    <button type="submit">Add Flight</button>
   </form>
 
 <%- include("../partials/footer") %>
