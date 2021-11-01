@@ -16,8 +16,8 @@ function newFlight(req, res) {
   })
 }
 
-function create(req, res) {
-  const flight = new Flight(req.body)
+async function create(req, res) {
+  const flight = await new Flight(req.body)
   flight.save(function(error) {
     if (error) return res.render('/flights/new')
     res.redirect('/flights')
