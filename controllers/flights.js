@@ -16,7 +16,7 @@ function newFlight(req, res) {
   })
 }
 
-async function create(req, res) {
+function create(req, res) {
   let body = {
     airline: req.body.airline,
     airport: req.body.airport,
@@ -26,25 +26,42 @@ async function create(req, res) {
   if (body.departs === ""){
     delete body.departs
   }
-  const flight = await new Flight(body)
+  const flight = new Flight(body)
   flight.save(function(error) {
     if (error) return res.render('/flights/new')
     res.redirect('/flights')
   })
 }
 
+function show(req, res) {
+  Flight.findById(req.params.id, function(error, flight) {
+    res.render('flights/show', {
+      title: "Flight Detail", 
+      flight: flight, 
+    })
+  })
+}
 
-// Flight.create(req.body, function(error, flight){
-//   if (error) {
-//     console.log(error)
-//     return res.redirect("/flights/new")
-//   }
-//   res.redirect(`/flights/${flight._id}`)
-// })
+function deleteFlight(req, res) {
+  Flight.findByIdAndDelete(req.params.id, function(error, flight) {
+    res.redirect('/flights')
+  })
+}
 
+function createTicket(req, res) {
+  Flight.findById(req.params.id, function(error, flight){
+    flight.tickets.push(req.body)
+    flight.save(function(error) {
+      res.redirect(`/flights/${flight._id}`)
+    })
+  })
+}
 
 export {
   newFlight as new,
   index,
   create,
+  show,
+  deleteFlight as delete,
+  createTicket,
 }
