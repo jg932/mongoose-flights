@@ -1,4 +1,5 @@
 import { Flight } from "../models/flight.js"
+import { Destination } from "../models/destination.js"
 
 function index(req, res) {
   Flight.find({}, function(error, flights) {
@@ -29,15 +30,20 @@ function create(req, res) {
   const flight = new Flight(body)
   flight.save(function(error) {
     if (error) return res.render('/flights/new')
-    res.redirect('/flights')
+    res.redirect(`/flights/${flight._id}`)
   })
 }
 
 function show(req, res) {
-  Flight.findById(req.params.id, function(error, flight) {
-    res.render('flights/show', {
-      title: "Flight Detail", 
-      flight: flight, 
+  Flight.findById(req.params.id)
+  .populate('destinations')
+  .exec(function(error, flight) {
+    Destination.find({_id: {$nin: flight.destinations}}, function(error, destinations) {
+      res.render('flights/show', {
+        title: 'Flight Detail',
+        flight, flight,
+        destinations: destinations,
+      })
     })
   })
 }
@@ -57,6 +63,21 @@ function createTicket(req, res) {
   })
 }
 
+function addToDestinationsList(req, res){
+  Flight.findById(req.params.id, function(error, flight) {
+    flight.destinations.push(req.body.destinationId)
+    flight.save(function(error) {
+      res.redirect(`/flights/${flight._id}`)
+    })
+  })
+}
+
+function deleteTicket(req, res) {
+  Flight.Ticket.findByIdAndDelete(req.params.id, function(error, ticket) {
+    res.render(`flights/${flight._id}`)
+  })
+}
+
 export {
   newFlight as new,
   index,
@@ -64,4 +85,6 @@ export {
   show,
   deleteFlight as delete,
   createTicket,
+  addToDestinationsList,
+  deleteTicket,
 }
