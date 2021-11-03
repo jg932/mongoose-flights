@@ -39,7 +39,7 @@ function show(req, res) {
     Destination.find({_id: {$nin: flight.destinations}}, function(error, destinations) {
       res.render('flights/show', {
         title: 'Flight Detail',
-        flight, flight,
+        flight: flight,
         destinations: destinations,
       })
     })
@@ -71,9 +71,14 @@ function addToDestinationsList(req, res){
 }
 
 function deleteTicket(req, res) {
-  Flight.Ticket.findByIdAndDelete(req.params.id, function(error, ticket) {
-    res.render(`flights/${flight._id}`)
+  // find flight
+  Flight.findById(req.params.flightId, function(error, flight) {
+    flight.tickets.remove({_id: req.params.ticketId})
+    flight.save(function(error) {
+      res.redirect(`/flights/${flight._id}`)
+    })
   })
+  // remove ticket
 }
 
 export {
