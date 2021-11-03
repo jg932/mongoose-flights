@@ -18,18 +18,16 @@ function newFlight(req, res) {
 }
 
 function create(req, res) {
-  let body = {
-    airline: req.body.airline,
-    airport: req.body.airport,
-    flightNo: req.body.flightNo,
-    departs: req.body.departs,
+  console.log(req.body)
+  if (req.body.departs === ""){
+    delete req.body.departs
   }
-  if (body.departs === ""){
-    delete body.departs
-  }
-  const flight = new Flight(body)
+  const flight = new Flight(req.body)
   flight.save(function(error) {
-    if (error) return res.render('/flights/new')
+    if (error){
+      console.log(error)
+      return res.redirect('/flights/new')
+    } 
     res.redirect(`/flights/${flight._id}`)
   })
 }

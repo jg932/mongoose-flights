@@ -31,7 +31,7 @@ const flightSchema = new mongoose.Schema({
   },
   flightNo: {
     type: Number,
-    require: true,
+    required: true,
     min: 10,
     max: 9999,
   },
