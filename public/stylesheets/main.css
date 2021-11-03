@@ -48,7 +48,8 @@ body > main h1:first-child {
 
 body > nav {
   grid-area: nav;
-  background-color: #b8c0c2;
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,0.7619047619047619) 9%, rgba(0,212,255,1) 100%);
   display: flex;
   justify-content: flex-end;
   align-items: center;

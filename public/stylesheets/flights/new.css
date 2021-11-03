@@ -1,3 +1,20 @@
+body {
+  /* Use a system font, if none are available use an available sans-sarif font */
+  margin: 0;
+  color: #424748;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 50px 1fr;
+  grid-template-areas:
+    "nav"
+    "main";
+  font-size: 1.8rem;
+}
+
+h1 {
+  height: 50px;
+}
+
 form {
   display: grid;
   grid-gap: 10px;
